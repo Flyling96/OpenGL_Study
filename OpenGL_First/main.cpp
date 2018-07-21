@@ -8,12 +8,6 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
-//float vertices[] = {
-//	-0.5f, -0.5f, 0.0f,
-//	0.5f, -0.5f, 0.0f,
-//	0.0f,  0.5f, 0.0f
-//};
-
 
 Vertex vertices[] =
 {
