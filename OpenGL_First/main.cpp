@@ -1,49 +1,49 @@
 #include<GLFW/glfw3.h>
 #include<glad/glad.h>
 #include<iostream>
+#include"Shader.h"
+#include"Mesh.h"
+#include"Windows.h"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
+//float vertices[] = {
+//	-0.5f, -0.5f, 0.0f,
+//	0.5f, -0.5f, 0.0f,
+//	0.0f,  0.5f, 0.0f
+//};
+
+
+Vertex vertices[] =
+{
+	Vertex(-0.5,-0.5,0),
+	Vertex(0,0.5,0),
+	Vertex(0.5,-0.5,0)
+};
+
 int main()
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
+
+	Windows window(800,600,"LearnOpenGL");
+
+	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+	Shader shader("./res/basicShader");
+
+	//Ö÷Ñ­»·
+	while (!window.IsClosed())
 	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
+		window.Chear(0.2f, 0.3f, 0.3f, 1.0f);
 
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
-	}
-	glViewport(0, 0, 800, 600);
+		shader.Bind();
 
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+		mesh.Draw();
 
-
-	while (!glfwWindowShouldClose(window))
-	{
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		window.Update();
 	}
 
 	glfwTerminate();
 
 	return 0;
-}
-
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
 }
