@@ -19,7 +19,6 @@ Vertex vertices[] =
 int main()
 {
 
-
 	Windows window(800,600,"LearnOpenGL");
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
