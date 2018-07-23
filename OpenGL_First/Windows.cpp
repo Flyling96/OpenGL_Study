@@ -44,7 +44,7 @@ bool Windows::IsClosed()
 	return glfwWindowShouldClose(m_window);
 }
 
-void Windows::Chear(float r, float g, float b, float a)
+void Windows::Clear(float r, float g, float b, float a)
 {
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT);

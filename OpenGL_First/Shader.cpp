@@ -96,7 +96,7 @@ Shader::Shader(const std::string & fileName)
 		glAttachShader(m_program, m_shader[i]);
 	}
 
-	glLinkProgram(m_program);
+	glLinkProgram(m_program);//将多个着色器链接成一个着色器程序
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Program Linking invalid");
 
 	glValidateProgram(m_program);//验证program
@@ -106,7 +106,7 @@ Shader::Shader(const std::string & fileName)
 
 void Shader::Bind()
 {
-	glUseProgram(m_program);
+	glUseProgram(m_program);	//使用着色器程序
 }
 
 
