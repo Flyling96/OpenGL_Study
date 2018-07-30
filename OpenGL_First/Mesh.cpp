@@ -52,6 +52,27 @@ Mesh::Mesh(Vertex * vertices, unsigned int numVertices)
 
 }
 
+Mesh::Mesh(VertexData * vertices, unsigned int numVertexData)
+{
+	m_drawCount = numVertexData;
+
+	//1、绑定顶点数组对象
+	glGenVertexArrays(1, &m_vertexArrayObject);//分配VAO(顶点数组对象)内存空间，1为设置的缓存ID
+	glBindVertexArray(m_vertexArrayObject);//绑定顶点数组对象
+
+	//2、把我们的顶点数组复制到一个顶点缓冲中，供OpenGL使用
+	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);//分配VBO(顶点缓存对象)内存空间
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);//把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
+	glBufferData(GL_ARRAY_BUFFER, numVertexData * sizeof(vertices[0]), vertices, GL_STATIC_DRAW);
+
+	//3、设置顶点属性指针
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);//告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上）
+	glEnableVertexAttribArray(0);//以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
+
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));//告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上）
+	glEnableVertexAttribArray(1);//以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
+}
+
 
 Mesh::~Mesh()
 {
@@ -65,6 +86,7 @@ void Mesh::Draw(bool isEleMents)
 
 	if (isEleMents)
 	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//线框模式
 		glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
 	}
 	else

@@ -8,7 +8,7 @@ class Shader
 {
 public:
 	Shader(const std::string & fileName);
-
+	void BindUniform();
 	void Bind(); //°ó¶¨×ÅÉ«Æ÷
 	~Shader();
 private:

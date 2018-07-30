@@ -42,4 +42,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\basicShader.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\basicShader.vs">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
 </Project>
