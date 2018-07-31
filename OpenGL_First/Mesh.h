@@ -42,24 +42,46 @@ private:
 	float a;
 };
 
+class TextureDate
+{
+
+public:
+	TextureDate()
+	{
+		u = 0, v = 0;
+	}
+	TextureDate(float a, float b)
+	{
+		u = a;
+		v = b;
+	}
+
+private:
+	float u;
+	float v;
+
+};
+
 class VertexData
 {
 public:
-	VertexData(Vertex v, Color c)
+	VertexData(Vertex v, Color c, TextureDate t)
 	{
 		vertex = v;
 		color = c;
+		texture = t;
 	}
 private:
 	Vertex vertex;
 	Color color;
+	TextureDate texture;
 };
 
 
 class Mesh
 {
 public:
-	Mesh(Vertex * vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
+	Mesh(VertexData * vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	Mesh(Vertex * vertices, unsigned int numVertices);
 	Mesh(VertexData * vertices, unsigned int numVertexData);
 	void Draw(bool isEleMents);
