@@ -51,14 +51,21 @@ int main()
 	//Mesh mesh(vertexDatas, sizeof(vertexDatas) / sizeof(vertexDatas[0]));
 
 	Shader shader("./res/basicShader");
-	shader.LoadTexture("Penguins.jpg");
+
+	unsigned int texture1, texture2;
+	shader.LoadTexture("Penguins.jpg",texture1);
+	shader.LoadTexture("Lighthouse.jpg",texture2);
+	shader.Use();
+
+	shader.BindTexture(GL_TEXTURE0, texture1, "texture1", 0);
+	shader.BindTexture(GL_TEXTURE1, texture2, "texture2", 1);
+
 
 	//Ö÷Ñ­»·
 	while (!window.IsClosed())
 	{
 		window.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-		shader.Bind();
 		shader.BindUniform();
 
 		mesh.Draw(true);

@@ -104,7 +104,7 @@ Shader::Shader(const std::string & fileName)
 
 }
 
-void Shader::Bind()
+void Shader::Use()
 {
 	glUseProgram(m_program);	//使用着色器程序
 }
@@ -118,9 +118,15 @@ void Shader::BindUniform()
 	glUniform4f(vertexColorLocation, whileValue, whileValue, whileValue, 1.0f);
 }
 
-void Shader::LoadTexture(std::string imagePath)
+void Shader::BindTexture(int textureId,int texture,std::string textureName,int value)
 {
-	unsigned int texture;
+	glActiveTexture(textureId);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glUniform1i(glGetUniformLocation(m_program, textureName.c_str()), value);
+}
+
+void Shader::LoadTexture(std::string imagePath,unsigned int &texture)
+{
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	// 为当前绑定的纹理对象设置环绕、过滤方式
@@ -141,6 +147,7 @@ void Shader::LoadTexture(std::string imagePath)
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
+
 }
 
 Shader::~Shader()

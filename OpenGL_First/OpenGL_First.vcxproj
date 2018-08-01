@@ -142,6 +142,7 @@
     <None Include="res\basicShader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Lighthouse.jpg" />
     <Image Include="Penguins.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
