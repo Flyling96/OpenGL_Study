@@ -109,6 +109,24 @@ void Shader::Use()
 	glUseProgram(m_program);	//使用着色器程序
 }
 
+//传入shader矩阵相关
+void Shader::BindTransform(float screenWidth, float screenHeight)
+{
+	glm::mat4 model;
+	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	unsigned int modelLocation = glGetUniformLocation(m_program, "model");
+	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+	glm::mat4 view;
+	// 注意，我们将矩阵向我们要进行移动场景的反方向移动。
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	unsigned int viewLocation = glGetUniformLocation(m_program, "view");
+	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+	glm::mat4 projection;
+	projection = glm::perspective(glm::radians(45.0f), screenWidth / screenHeight, 0.1f, 100.0f);
+	unsigned int projectionLocation = glGetUniformLocation(m_program, "projection");
+	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+}
+
 void Shader::BindUniform()
 {
 	// 更新uniform颜色
@@ -136,6 +154,7 @@ void Shader::LoadTexture(std::string imagePath,unsigned int &texture)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// 加载并生成纹理
 	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char *data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0);
 	if (data)
 	{

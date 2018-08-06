@@ -10,6 +10,7 @@
 #include <crtdbg.h> 
 
 
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 
@@ -29,10 +30,10 @@ VertexData vertexDatas[] =
 
 VertexData vertexDatas2[] =
 {
-	VertexData(Vertex(1.0f, 1.0f, 0.0f),Color(1,1,0,1),TextureDate(1,0)),
-	VertexData(Vertex(1.0f, -1.0f, 0.0f),Color(1,0,1,1),TextureDate(1,1)),
-	VertexData(Vertex(-1.0f, -1.0f, 0.0f),Color(1,1,1,1),TextureDate(0,1)),
-	VertexData(Vertex(-1.0f, 1.0f, 0.0f),Color(0,1,1,1),TextureDate(0,0))
+	VertexData(Vertex(1.0f, 1.0f, 0.0f),Color(1,1,0,1),TextureDate(1,1)),
+	VertexData(Vertex(1.0f, -1.0f, 0.0f),Color(1,0,1,1),TextureDate(1,0)),
+	VertexData(Vertex(-1.0f, -1.0f, 0.0f),Color(1,1,1,1),TextureDate(0,0)),
+	VertexData(Vertex(-1.0f, 1.0f, 0.0f),Color(0,1,1,1),TextureDate(0,1))
 };
 
 unsigned int indices[] = { // 注意索引从0开始! 
@@ -55,6 +56,7 @@ int main()
 	unsigned int texture1, texture2;
 	shader.LoadTexture("Penguins.jpg",texture1);
 	shader.LoadTexture("Lighthouse.jpg",texture2);
+
 	shader.Use();
 
 	shader.BindTexture(GL_TEXTURE0, texture1, "texture1", 0);
@@ -66,7 +68,9 @@ int main()
 	{
 		window.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
+		shader.BindTransform(800,600);
 		shader.BindUniform();
+
 
 		mesh.Draw(true);
 
