@@ -28,6 +28,7 @@ Windows::Windows(int width, int height, const std::string& title)
 	glViewport(0, 0, 800, 600);
 
 	glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
+
 }
 
 void Windows::Update()
@@ -56,7 +57,13 @@ Windows::~Windows()
 	glfwDestroyWindow(m_window);
 }
 
+GLFWwindow* Windows::GetWindow()
+{
+	return m_window;
+}
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
+

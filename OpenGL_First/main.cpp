@@ -4,6 +4,7 @@
 #include"Shader.h"
 #include"Mesh.h"
 #include"Windows.h"
+#include"Camera.h"
 
 #define CRTDBG_MAP_ALLOC    //注意顺序不能乱
 #include <stdlib.h>    
@@ -77,7 +78,6 @@ glm::vec3 cubePositions[] = {
 int main()
 {
 
-
 	Windows window(800,600,"LearnOpenGL");
 
 	Mesh mesh(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
@@ -85,6 +85,8 @@ int main()
 	//Mesh mesh(vertexDatas, sizeof(vertexDatas) / sizeof(vertexDatas[0]));
 
 	Shader shader("./res/basicShader");
+
+	Camera camera(window.GetWindow());
 
 	unsigned int texture1, texture2;
 	shader.LoadTexture("Penguins.jpg",texture1);
@@ -96,13 +98,26 @@ int main()
 	shader.BindTexture(GL_TEXTURE1, texture2, "texture2", 1);
 
 	glEnable(GL_DEPTH_TEST);
+
+	float deltaTime = 0.0f; // 当前帧与上一帧的时间差
+	float lastFrame = 0.0f; // 上一帧的时间
+
 	//主循环
 	while (!window.IsClosed())
 	{
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		window.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
 		shader.BindTransform(800,600);
 		shader.BindUniform();
+
+		camera.ProcessInput(window.GetWindow(), deltaTime);
+		camera.UpdateFront();
+
+		shader.SetMat4("view",camera.Update());
 
 		for (unsigned int i = 0; i < 10; i++)
 		{

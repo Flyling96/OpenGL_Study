@@ -14,6 +14,7 @@ public:
 	void Clear(float r, float g, float b, float a);
 	~Windows();
 
+	GLFWwindow* GetWindow();
 private:
 	GLFWwindow* m_window;
 

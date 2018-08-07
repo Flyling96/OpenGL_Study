@@ -117,16 +117,28 @@ void Shader::BindTransform(float screenWidth, float screenHeight)
 	model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 	unsigned int modelLocation = glGetUniformLocation(m_program, "model");
 	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
-	glm::mat4 view;
-	// 注意，我们将矩阵向我们要进行移动场景的反方向移动。
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-	unsigned int viewLocation = glGetUniformLocation(m_program, "view");
-	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+	//glm::mat4 view;
+	//// 注意，我们将矩阵向我们要进行移动场景的反方向移动。
+	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	//unsigned int viewLocation = glGetUniformLocation(m_program, "view");
+	//glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+
+	//float radius = 10.0f;
+	//float camX = sin(glfwGetTime()) * radius;
+	//float camZ = cos(glfwGetTime()) * radius;
+	//glm::mat4 view;
+	//view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+	////LookAt(摄像机位置，目标位置，世界空间的上向量)
+	//unsigned int viewLocation = glGetUniformLocation(m_program, "view");
+	//glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), screenWidth / screenHeight, 0.1f, 100.0f);
 	unsigned int projectionLocation = glGetUniformLocation(m_program, "projection");
 	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 }
+
+
 
 void Shader::BindUniform()
 {
