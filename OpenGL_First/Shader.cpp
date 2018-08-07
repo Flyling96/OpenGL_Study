@@ -112,8 +112,9 @@ void Shader::Use()
 //传入shader矩阵相关
 void Shader::BindTransform(float screenWidth, float screenHeight)
 {
+
 	glm::mat4 model;
-	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 	unsigned int modelLocation = glGetUniformLocation(m_program, "model");
 	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 	glm::mat4 view;
@@ -177,4 +178,11 @@ Shader::~Shader()
 		glDeleteShader(m_shader[i]);
 	}
 	glDeleteProgram(m_program);
+}
+
+
+void Shader::SetMat4(char* name, glm::mat4 mat4)
+{
+	unsigned int modelLocation = glGetUniformLocation(m_program, name);
+	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(mat4));
 }

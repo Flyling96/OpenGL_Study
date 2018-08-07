@@ -19,6 +19,7 @@ public:
 	void Use(); //使用着色器
 	void BindTexture(int textureId, int texture, std::string textureName, int value); //绑定纹理信息
 	void LoadTexture(std::string imagePath, unsigned int &texture);//加载纹理
+	void SetMat4(char* name, glm::mat4 mat4);
 	~Shader();
 private:
 	static const unsigned int NUM_SHADERS = 2;

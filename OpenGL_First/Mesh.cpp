@@ -94,6 +94,7 @@ Mesh::~Mesh()
 
 }
 
+
 void Mesh::Draw(bool isEleMents)
 {
 	glBindVertexArray(m_vertexArrayObject);
