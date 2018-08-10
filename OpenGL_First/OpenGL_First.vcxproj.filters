@@ -61,6 +61,18 @@
     <None Include="res\basicShader.vs">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="res\lightShader.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\lightShader.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\cubeShader.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\cubeShader.vs">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Penguins.jpg">

@@ -113,10 +113,10 @@ void Shader::Use()
 void Shader::BindTransform(float screenWidth, float screenHeight)
 {
 
-	glm::mat4 model;
-	model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-	unsigned int modelLocation = glGetUniformLocation(m_program, "model");
-	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+	//glm::mat4 model;
+	//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+	//unsigned int modelLocation = glGetUniformLocation(m_program, "model");
+	//glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 	//glm::mat4 view;
 	//// 注意，我们将矩阵向我们要进行移动场景的反方向移动。
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
@@ -192,9 +192,3 @@ Shader::~Shader()
 	glDeleteProgram(m_program);
 }
 
-
-void Shader::SetMat4(char* name, glm::mat4 mat4)
-{
-	unsigned int modelLocation = glGetUniformLocation(m_program, name);
-	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(mat4));
-}

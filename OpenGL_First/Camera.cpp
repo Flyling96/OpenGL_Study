@@ -42,6 +42,8 @@ void Camera::UpdateFront()
 {
 	yaw += xoffset;
 	pitch += yoffset;
+	xoffset = 0;
+	yoffset = 0;
 
 	if (pitch > 89.0f)
 		pitch = 89.0f;
@@ -67,7 +69,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	lastX = xpos;
 	lastY = ypos;
 
-	float sensitivity = 0.005f;
+	float sensitivity = 0.05f;
 	xoffset *= sensitivity;
 	yoffset *= sensitivity;
 

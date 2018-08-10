@@ -75,16 +75,21 @@ glm::vec3 cubePositions[] = {
 	glm::vec3(-1.3f,  1.0f, -1.5f)
 };
 
+void DrawCube(Mesh& mesh,Shader& shader,Camera& camera, glm::mat4 model);
+
+
 int main()
 {
 
 	Windows window(800,600,"LearnOpenGL");
 
 	Mesh mesh(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	Mesh lightCubeMesh(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
 	//Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 	//Mesh mesh(vertexDatas, sizeof(vertexDatas) / sizeof(vertexDatas[0]));
 
-	Shader shader("./res/basicShader");
+	Shader shader("./res/cubeShader");
+	Shader lightShader("./res/lightShader");
 
 	Camera camera(window.GetWindow());
 
@@ -92,10 +97,9 @@ int main()
 	shader.LoadTexture("Penguins.jpg",texture1);
 	shader.LoadTexture("Lighthouse.jpg",texture2);
 
-	shader.Use();
 
-	shader.BindTexture(GL_TEXTURE0, texture1, "texture1", 0);
-	shader.BindTexture(GL_TEXTURE1, texture2, "texture2", 1);
+	//shader.BindTexture(GL_TEXTURE0, texture1, "texture1", 0);
+	//shader.BindTexture(GL_TEXTURE1, texture2, "texture2", 1);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -111,24 +115,23 @@ int main()
 
 		window.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-		shader.BindTransform(800,600);
-		shader.BindUniform();
 
 		camera.ProcessInput(window.GetWindow(), deltaTime);
 		camera.UpdateFront();
 
-		shader.SetMat4("view",camera.Update());
+		shader.Use();
+		shader.setVec3("objectColor", 0.25f, 0.4f, 0.8f);
+		shader.setVec3("lightColor", 1.0f,1.0f,1.0f);
+		glm::mat4 model;
+		model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+		DrawCube(mesh, shader, camera, model);
 
-		for (unsigned int i = 0; i < 10; i++)
-		{
-			glm::mat4 model;
-			model = glm::translate(model, cubePositions[i]);
-			float angle = 20.0f * (i+1);
-			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			shader.SetMat4("model", model);
-			mesh.Draw(true);
+		lightShader.Use();
+		glm::mat4 lightModel;
+		lightModel = glm::translate(lightModel, cubePositions[5]);
+		lightModel = glm::rotate(lightModel, glm::radians(-45.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+		DrawCube(lightCubeMesh, lightShader, camera, lightModel);
 
-		}
 		//mesh.Draw(true);
 
 		window.Update();
@@ -137,4 +140,12 @@ int main()
 
 	glfwTerminate();
 	return 0;
+}
+
+void DrawCube(Mesh& mesh,Shader& shader,Camera& camera, glm::mat4 model)
+{
+	shader.BindTransform(800, 600);
+	shader.setMat4("view", camera.Update());
+	shader.setMat4("model", model);
+	mesh.Draw(true);
 }
