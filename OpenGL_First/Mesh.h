@@ -106,6 +106,14 @@ public:
 		texture = t;
 		normal = Normal(0, 0, 0);
 	}
+
+	VertexData(Vertex v, Color c, TextureDate t, Normal n)
+	{
+		vertex = v;
+		color = c;
+		texture = t;
+		normal = n;
+	}
 	void ChangeNormal(float a, float b, float c)
 	{
 		normal.ChangeNormal(a,b,c);
@@ -126,9 +134,12 @@ private:
 class Mesh
 {
 public:
+	Mesh();
 	Mesh(VertexData * vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
+	void Init(VertexData * vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	Mesh(Vertex * vertices, unsigned int numVertices);
 	Mesh(VertexData * vertices, unsigned int numVertexData);
+	void Init(VertexData * vertices, unsigned int numVertexData);
 	void Draw(bool isEleMents);
 
 	~Mesh();

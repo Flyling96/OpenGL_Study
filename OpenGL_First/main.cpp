@@ -15,7 +15,7 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void CalculateVertexNormal(VertexData * vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 glm::vec3 CalculateSurfaceNormal(glm::vec3 a, glm::vec3 b, glm::vec3 c);
-void DrawCube(Mesh& mesh, Shader& shader, Camera& camera, glm::mat4 model);
+void DrawCube(Mesh& mesh, Shader& shader, Camera& camera, glm::mat4 model, bool isReuseVertex);
 
 
 
@@ -26,13 +26,53 @@ Vertex vertices[] =
 	Vertex(0.5,-0.5,0)
 };
 
+//不重用顶点
 VertexData vertexDatas[] =
 {
-	VertexData(Vertex(-0.5,-0.5,0),Color(1,0,0,1),TextureDate(0,1)),
-	VertexData(Vertex(0,0.5,0),Color(0,1,0,1),TextureDate(0.5,0)),
-	VertexData(Vertex(0.5,-0.5,0),Color(0,0,1,1),TextureDate(1,1))
+	VertexData(Vertex(1.0f, 1.0f, 1.0f),Color(1,1,0,1),TextureDate(1,1),Normal(0,0,1)),
+	VertexData(Vertex(1.0f, -1.0f,1.0f),Color(1,0,1,1),TextureDate(1,0),Normal(0,0,1)),
+	VertexData(Vertex(-1.0f, 1.0f, 1.0f),Color(0,1,1,1),TextureDate(0,1),Normal(0,0,1)),
+	VertexData(Vertex(1.0f, -1.0f,1.0f),Color(1,0,1,1),TextureDate(1,0),Normal(0,0,1)),
+	VertexData(Vertex(-1.0f, -1.0f, 1.0f),Color(1,1,1,1),TextureDate(0,0),Normal(0,0,1)),
+	VertexData(Vertex(-1.0f, 1.0f, 1.0f),Color(0,1,1,1),TextureDate(0,1),Normal(0,0,1)),
+
+	VertexData(Vertex(-1.0f, 1.0f, 1.0f),Color(0,1,1,1),TextureDate(1,1),Normal(-1,0,0)),
+	VertexData(Vertex(-1.0f, -1.0f, 1.0f),Color(1,1,1,1),TextureDate(1,0),Normal(-1,0,0)),
+	VertexData(Vertex(-1.0f, 1.0f, -1.0f),Color(0,1,1,1),TextureDate(0,1),Normal(-1,0,0)),
+	VertexData(Vertex(-1.0f, -1.0f, 1.0f),Color(1,1,1,1),TextureDate(1,0),Normal(-1,0,0)),
+	VertexData(Vertex(-1.0f, -1.0f, -1.0f),Color(1,1,1,1),TextureDate(0,0),Normal(-1,0,0)),
+	VertexData(Vertex(-1.0f, 1.0f, -1.0f),Color(0,1,1,1),TextureDate(0,1),Normal(-1,0,0)),
+
+	VertexData(Vertex(1.0f, 1.0f, -1.0f),Color(1,1,0,1),TextureDate(1,1),Normal(1,0,0)),
+	VertexData(Vertex(1.0f, -1.0f, -1.0f),Color(1,0,1,1),TextureDate(1,0),Normal(1,0,0)),
+	VertexData(Vertex(1.0f, 1.0f, 1.0f),Color(1,1,0,1),TextureDate(0,1),Normal(1,0,0)),
+	VertexData(Vertex(1.0f, -1.0f, -1.0f),Color(1,0,1,1),TextureDate(1,0),Normal(1,0,0)),
+	VertexData(Vertex(1.0f, -1.0f,1.0f),Color(1,0,1,1),TextureDate(0,0),Normal(1,0,0)),
+	VertexData(Vertex(1.0f, 1.0f, 1.0f),Color(1,1,0,1),TextureDate(0,1),Normal(1,0,0)),
+
+	VertexData(Vertex(1.0f, 1.0f, -1.0f),Color(1,1,0,1),TextureDate(1,1),Normal(0,1,0)),
+	VertexData(Vertex(1.0f, 1.0f, 1.0f),Color(1,1,0,1),TextureDate(1,0),Normal(0,1,0)),
+	VertexData(Vertex(-1.0f, 1.0f, -1.0f),Color(0,1,1,1),TextureDate(0,1),Normal(0,1,0)),
+	VertexData(Vertex(1.0f, 1.0f, 1.0f),Color(1,1,0,1),TextureDate(1,0),Normal(0,1,0)),
+	VertexData(Vertex(-1.0f, 1.0f, 1.0f),Color(0,1,1,1),TextureDate(0,0),Normal(0,1,0)),
+	VertexData(Vertex(-1.0f, 1.0f, -1.0f),Color(0,1,1,1),TextureDate(0,1),Normal(0,1,0)),
+
+	VertexData(Vertex(1.0f, -1.0f,1.0f),Color(1,0,1,1),TextureDate(1,1),Normal(0,-1,0)),
+	VertexData(Vertex(1.0f, -1.0f, -1.0f),Color(1,0,1,1),TextureDate(1,0),Normal(0,-1,0)),
+	VertexData(Vertex(-1.0f, -1.0f, 1.0f),Color(1,1,1,1),TextureDate(0,1),Normal(0,-1,0)),
+	VertexData(Vertex(1.0f, -1.0f, -1.0f),Color(1,0,1,1),TextureDate(1,0),Normal(0,-1,0)),
+	VertexData(Vertex(-1.0f, -1.0f, -1.0f),Color(1,1,1,1),TextureDate(0,0),Normal(0,-1,0)),
+	VertexData(Vertex(-1.0f, -1.0f, 1.0f),Color(1,1,1,1),TextureDate(0,1),Normal(0,-1,0)),
+
+	VertexData(Vertex(-1.0f, 1.0f, -1.0f),Color(0,1,1,1),TextureDate(1,1),Normal(0,0,-1)),
+	VertexData(Vertex(-1.0f, -1.0f, -1.0f),Color(1,1,1,1),TextureDate(1,0),Normal(0,0,-1)),
+	VertexData(Vertex(1.0f, 1.0f, -1.0f),Color(1,1,0,1),TextureDate(0,1),Normal(0,0,-1)),
+	VertexData(Vertex(-1.0f, -1.0f, -1.0f),Color(1,1,1,1),TextureDate(1,0),Normal(0,0,-1)),
+	VertexData(Vertex(1.0f, -1.0f, -1.0f),Color(1,0,1,1),TextureDate(0,0),Normal(0,0,-1)),
+	VertexData(Vertex(1.0f, 1.0f, -1.0f),Color(1,1,0,1),TextureDate(0,1),Normal(0,0,-1)),
 };
 
+//重用顶点
 VertexData vertexDatas2[] =
 {
 	VertexData(Vertex(1.0f, 1.0f, 1.0f),Color(1,1,0,1),TextureDate(1,1)),
@@ -84,13 +124,23 @@ glm::vec3 cubePositions[] = {
 
 int main()
 {
+	bool isReuseVertex = false;//是否重用顶点
+	Windows window(800, 600, "LearnOpenGL");
+	Mesh mesh;
+	Mesh lightCubeMesh;
 
-	CalculateVertexNormal(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	if (isReuseVertex)
+	{
+		CalculateVertexNormal(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
+		mesh.Init(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
+		lightCubeMesh.Init(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	}
+	else
+	{
+		mesh.Init(vertexDatas, sizeof(vertexDatas) / sizeof(vertexDatas[0]));
+		lightCubeMesh.Init(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	}
 
-	Windows window(800,600,"LearnOpenGL");
-
-	Mesh mesh(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh lightCubeMesh(vertexDatas2, sizeof(vertexDatas2) / sizeof(vertexDatas2[0]), indices, sizeof(indices) / sizeof(indices[0]));
 	//Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 	//Mesh mesh(vertexDatas, sizeof(vertexDatas) / sizeof(vertexDatas[0]));
 
@@ -100,13 +150,13 @@ int main()
 
 	Camera camera(window.GetWindow());
 
-	unsigned int texture1, texture2;
-	shader.LoadTexture("Penguins.jpg",texture1);
-	shader.LoadTexture("Lighthouse.jpg",texture2);
+	unsigned int diffuseMap, specularMap;
+	shader.LoadTexture("DiffuseMap.png", diffuseMap);
+	shader.LoadTexture("SpecularMap.png", specularMap);
 
-
-	//shader.BindTexture(GL_TEXTURE0, texture1, "texture1", 0);
-	//shader.BindTexture(GL_TEXTURE1, texture2, "texture2", 1);
+	shader.Use();
+	shader.BindTexture(GL_TEXTURE0, diffuseMap, "material.diffuse", 0);
+	shader.BindTexture(GL_TEXTURE1, specularMap, "material.specular", 1);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -114,6 +164,7 @@ int main()
 	float lastFrame = 0.0f; // 上一帧的时间
 
 	glm::vec3 lightPos(5.0f, 0.0f, 0.0f);
+	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 	//主循环
 	while (!window.IsClosed())
 	{
@@ -127,18 +178,26 @@ int main()
 		camera.ProcessInput(window.GetWindow(), deltaTime);
 		camera.UpdateFront();
 
+
 		shader.Use();
-		shader.setVec3("objectColor", 0.25f, 0.4f, 0.8f);
-		shader.setVec3("lightColor", 1.0f,1.0f,1.0f);
-		shader.setVec3("lightPos", lightPos);
+
 		shader.setVec3("viewPos", camera.cameraPos);
+		shader.setVec3("light.position", lightPos);
+		shader.setVec3("light.ambient", 0.25f, 0.25f, 0.25f);
+		shader.setVec3("light.diffuse", lightColor);
+		shader.setVec3("light.specular", lightColor);
+		shader.setVec3("material.ambient", 0.25f, 0.4f, 0.8f);
+		shader.setVec3("material.diffuse", 0.5f, 0.5f, 0.5f);
+		shader.setVec3("material.specular", 0.8f, 0.8f, 0.8f);
+		shader.setFloat("material.shininess", 32.0f);
 		glm::mat4 model;
-		DrawCube(mesh, shader, camera, model);
+		DrawCube(mesh, shader, camera, model, isReuseVertex);
 
 		lightShader.Use();
+		lightShader.setVec3("lightColor", lightColor);
 		glm::mat4 lightModel;
 		lightModel = glm::translate(lightModel, lightPos);
-		DrawCube(lightCubeMesh, lightShader, camera, lightModel);
+		DrawCube(lightCubeMesh, lightShader, camera, lightModel,true);
 
 		//mesh.Draw(true);
 
@@ -150,12 +209,12 @@ int main()
 	return 0;
 }
 
-void DrawCube(Mesh& mesh,Shader& shader,Camera& camera, glm::mat4 model)
+void DrawCube(Mesh& mesh,Shader& shader,Camera& camera, glm::mat4 model,bool isReuseVertex)
 {
 	shader.BindTransform(800, 600);
 	shader.setMat4("view", camera.Update());
 	shader.setMat4("model", model);
-	mesh.Draw(true);
+	mesh.Draw(isReuseVertex);
 }
 
 void CalculateVertexNormal(VertexData * vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
