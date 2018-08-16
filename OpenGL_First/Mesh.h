@@ -1,6 +1,35 @@
 #pragma once
 #include<GLFW/glfw3.h>
 #include<glad/glad.h>
+#include<glm/glm.hpp>
+#include<vector>
+
+class Normal
+{
+public:
+	Normal()
+	{
+		x = 0, y = 0, z = 0;
+	}
+	Normal(float a, float b, float c)
+	{
+		ChangeNormal(a, b, c);
+	}
+	void ChangeNormal(float a, float b, float c)
+	{
+		x = a;
+		y = b;
+		z = c;
+	}
+	glm::vec3 GetNormal()
+	{
+		return glm::vec3(x, y, z);
+	}
+private:
+	float x;
+	float y;
+	float z;
+};
 
 class Vertex
 {
@@ -14,6 +43,11 @@ public:
 		posX = x;
 		posY = y;
 		posZ = z;
+	}
+
+	glm::vec3 GetVertex()
+	{
+		return glm::vec3(posX, posY, posZ);
 	}
 private:
 	float posX;
@@ -70,11 +104,22 @@ public:
 		vertex = v;
 		color = c;
 		texture = t;
+		normal = Normal(0, 0, 0);
 	}
+	void ChangeNormal(float a, float b, float c)
+	{
+		normal.ChangeNormal(a,b,c);
+	}
+	glm::vec3 GetVertex()
+	{
+		return vertex.GetVertex();
+	}
+
 private:
 	Vertex vertex;
 	Color color;
 	TextureDate texture;
+	Normal normal;
 };
 
 
@@ -85,7 +130,10 @@ public:
 	Mesh(Vertex * vertices, unsigned int numVertices);
 	Mesh(VertexData * vertices, unsigned int numVertexData);
 	void Draw(bool isEleMents);
+
 	~Mesh();
+
+
 private:
 	enum
 	{
