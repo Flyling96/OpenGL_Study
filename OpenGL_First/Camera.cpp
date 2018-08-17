@@ -24,7 +24,7 @@ glm::mat4 Camera::Update()
 
 void Camera::ProcessInput(GLFWwindow *window,float deltaTime)
 {
-	float cameraSpeed = 1.0f * deltaTime; // adjust accordingly
+	float cameraSpeed = 5.0f * deltaTime; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos += cameraSpeed * cameraFront;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -72,5 +72,4 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	float sensitivity = 0.05f;
 	xoffset *= sensitivity;
 	yoffset *= sensitivity;
-
 }

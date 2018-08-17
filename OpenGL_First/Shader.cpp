@@ -86,6 +86,11 @@ static std::string LoadShader(const std::string & fileName)
 
 Shader::Shader(const std::string & fileName)
 {
+	Init(fileName);
+}
+
+void Shader::Init(const std::string & fileName)
+{
 	m_program = glCreateProgram();
 
 	m_shader[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
@@ -101,7 +106,6 @@ Shader::Shader(const std::string & fileName)
 
 	glValidateProgram(m_program);//验证program
 	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error:Program Validate invalid");
-
 }
 
 void Shader::Use()
@@ -156,8 +160,9 @@ void Shader::BindTexture(int textureId,int texture,std::string textureName,int v
 	glUniform1i(glGetUniformLocation(m_program, textureName.c_str()), value);
 }
 
-void Shader::LoadTexture(std::string imagePath,unsigned int &texture)
+unsigned int Shader::LoadTexture(std::string imagePath)
 {
+	unsigned int texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	// 为当前绑定的纹理对象设置环绕、过滤方式
@@ -190,6 +195,7 @@ void Shader::LoadTexture(std::string imagePath,unsigned int &texture)
 	}
 	stbi_image_free(data);
 
+	return texture;
 }
 
 Shader::~Shader()

@@ -4,6 +4,8 @@
 #include<glm/glm.hpp>
 #include<vector>
 
+#include"Shader.h"
+
 class Normal
 {
 public:
@@ -31,14 +33,14 @@ private:
 	float z;
 };
 
-class Vertex
+class VertexPosition
 {
 public:
-	Vertex()
+	VertexPosition()
 	{
 		posX = 0, posY = 0,posZ = 0;
 	}
-	Vertex(float x,float y,float z)
+	VertexPosition(float x,float y,float z)
 	{
 		posX = x;
 		posY = y;
@@ -76,15 +78,21 @@ private:
 	float a;
 };
 
-class TextureDate
+class TextureUV
 {
 
 public:
-	TextureDate()
+	TextureUV()
 	{
 		u = 0, v = 0;
 	}
-	TextureDate(float a, float b)
+	TextureUV(float a, float b)
+	{
+		u = a;
+		v = b;
+	}
+
+	void ChangeUV(float a, float b)
 	{
 		u = a;
 		v = b;
@@ -96,10 +104,11 @@ private:
 
 };
 
-class VertexData
+class Vertex
 {
 public:
-	VertexData(Vertex v, Color c, TextureDate t)
+	Vertex() {}
+	Vertex(VertexPosition v, Color c, TextureUV t)
 	{
 		vertex = v;
 		color = c;
@@ -107,7 +116,7 @@ public:
 		normal = Normal(0, 0, 0);
 	}
 
-	VertexData(Vertex v, Color c, TextureDate t, Normal n)
+	Vertex(VertexPosition v, Color c, TextureUV t, Normal n)
 	{
 		vertex = v;
 		color = c;
@@ -122,28 +131,40 @@ public:
 	{
 		return vertex.GetVertex();
 	}
-
-private:
-	Vertex vertex;
+	VertexPosition vertex;
 	Color color;
-	TextureDate texture;
+	TextureUV texture;
 	Normal normal;
+private:
+	//VertexPosition vertex;
+	//Color color;
+	//TextureUV texture;
+	//Normal normal;
 };
 
+struct Texture {
+	unsigned int id;
+	std::string type;
+	std::string path;
+};
 
 class Mesh
 {
 public:
 	Mesh();
-	Mesh(VertexData * vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
-	void Init(VertexData * vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
-	Mesh(Vertex * vertices, unsigned int numVertices);
-	Mesh(VertexData * vertices, unsigned int numVertexData);
-	void Init(VertexData * vertices, unsigned int numVertexData);
+	Mesh(std::vector<Vertex> vertices, std::vector<int> indices,std::vector<Texture> textures);
+	void Init(std::vector<Vertex> vertices, std::vector<int> indices);
+	Mesh(VertexPosition * vertices, unsigned int numVertices);
+	Mesh(std::vector<Vertex> vertices);
+	void Init(std::vector<Vertex> vertices);
 	void Draw(bool isEleMents);
+	void Draw(Shader shader);
 
 	~Mesh();
 
+	std::vector<Vertex> vertices;
+	std::vector<int> indices;
+	std::vector<Texture> textures;
 
 private:
 	enum
@@ -155,6 +176,7 @@ private:
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];	//VBO,顶点缓存对象
 	GLuint m_elementBufferObject;				//EBO,索引缓存对象
 	unsigned int m_drawCount;
+
 
 };
 

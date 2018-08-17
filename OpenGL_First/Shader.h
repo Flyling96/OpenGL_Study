@@ -13,12 +13,14 @@ class Shader
 {
 public:
 	GLuint m_program;
+	Shader() {};
 	Shader(const std::string & fileName);
+	void Init(const std::string & fileName);
 	void BindUniform();
 	void BindTransform(float screenWidth, float screenHeight);
 	void Use(); //使用着色器
 	void BindTexture(int textureId, int texture, std::string textureName, int value); //绑定纹理信息
-	void LoadTexture(std::string imagePath, unsigned int &texture);//加载纹理
+	unsigned int Shader::LoadTexture(std::string imagePath);//加载纹理
 	~Shader();
 
 	void setBool(const std::string &name, bool value) const

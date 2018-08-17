@@ -36,6 +36,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -53,33 +56,34 @@
     <ClInclude Include="Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\basicShader.fs">
+    <None Include="res\shader\basicShader.fs">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="res\basicShader.vs">
+    <None Include="res\shader\basicShader.vs">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="res\lightShader.fs">
+    <None Include="res\shader\cubeShader.fs">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="res\lightShader.vs">
+    <None Include="res\shader\cubeShader.vs">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="res\cubeShader.fs">
+    <None Include="res\shader\lightShader.fs">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="res\cubeShader.vs">
+    <None Include="res\shader\lightShader.vs">
       <Filter>资源文件</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Penguins.jpg">
+    <None Include="res\shader\modelShader.fs">
       <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="Lighthouse.jpg">
+    </None>
+    <None Include="res\shader\modelShader.vs">
       <Filter>资源文件</Filter>
-    </Image>
+    </None>
   </ItemGroup>
 </Project>
