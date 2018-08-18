@@ -7,7 +7,7 @@ Model::Model(char *path)
 	Init(path);
 }
 
-void Model::Init(char *path)
+void Model::Init(string const &path)
 {
 	loadModel(path);
 }
@@ -78,23 +78,23 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 			indices.push_back(face.mIndices[j]);
 	}
 
-	//// 处理材质
-	//if (mesh->mMaterialIndex >= 0)
-	//{
-	//	aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-	//	//漫反射贴图
-	//	vector<Texture> diffuseMaps = loadMaterialTextures(material,aiTextureType_DIFFUSE, "texture_diffuse");
-	//	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-	//	//镜面反射贴图
-	//	vector<Texture> specularMaps = loadMaterialTextures(material,aiTextureType_SPECULAR, "texture_specular");
-	//	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	//	//法线贴图
-	//	std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
-	//	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-	//	//高度图
-	//	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-	//	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-	//}
+	// 处理材质
+	if (mesh->mMaterialIndex >= 0)
+	{
+		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+		//漫反射贴图
+		vector<Texture> diffuseMaps = loadMaterialTextures(material,aiTextureType_DIFFUSE, "texture_diffuse");
+		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		//镜面反射贴图
+		vector<Texture> specularMaps = loadMaterialTextures(material,aiTextureType_SPECULAR, "texture_specular");
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		//法线贴图
+		std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+		//高度图
+		std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+	}
 
 	return Mesh(vertices, indices, textures);
 }
@@ -170,7 +170,7 @@ unsigned int Model::LoadTexture(std::string name, std::string directory)
 	return texture;
 }
 
-void Model::Draw(Shader shader)
+void Model::Draw(Shader &shader)
 {	
 	for (unsigned int i = 0; i < meshes.size(); i++)
 		meshes[i].Draw(shader);

@@ -151,6 +151,7 @@ struct Texture {
 class Mesh
 {
 public:
+	unsigned int m_vertexArrayObject;					//VAO,顶点数组对象
 	Mesh();
 	Mesh(std::vector<Vertex> vertices, std::vector<int> indices,std::vector<Texture> textures);
 	void Init(std::vector<Vertex> vertices, std::vector<int> indices);
@@ -158,7 +159,7 @@ public:
 	Mesh(std::vector<Vertex> vertices);
 	void Init(std::vector<Vertex> vertices);
 	void Draw(bool isEleMents);
-	void Draw(Shader shader);
+	void Draw(Shader &shader);
 
 	~Mesh();
 
@@ -172,9 +173,8 @@ private:
 		POSITION_VB,
 		NUM_BUFFERS
 	};
-	GLuint m_vertexArrayObject;					//VAO,顶点数组对象
-	GLuint m_vertexArrayBuffers[NUM_BUFFERS];	//VBO,顶点缓存对象
-	GLuint m_elementBufferObject;				//EBO,索引缓存对象
+	unsigned int m_vertexArrayBuffers;				//VBO,顶点缓存对象
+	unsigned int m_elementBufferObject;				//EBO,索引缓存对象
 	unsigned int m_drawCount;
 
 

@@ -168,8 +168,8 @@ int main()
 	}
 	else
 	{
-		lightShader.Init("./res/shader/lightShader");
 		modelShader.Init("./res/shader/modelShader");
+		lightShader.Init("./res/shader/lightShader");
 		model.Init("./res/model/nanosuit/nanosuit.obj");
 	}
 	Camera camera(window.GetWindow());
@@ -181,7 +181,7 @@ int main()
 
 	glm::vec3 lightPos(5.0f, 0.0f, 0.0f);
 	glm::vec3 lightDir(-0.2f, -1.0f, -0.3f);
-	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+	glm::vec3 lightColor(0.0f, 0.0f, 0.0f);
 
 	glm::vec3 pointLightPositions[] = {
 		glm::vec3(0.7f,  0.2f,  2.0f),
@@ -282,10 +282,9 @@ int main()
 			modelShader.setMat4("view", view);
 			modelShader.setMat4("projection", projection);
 
-			// render the loaded model
 			glm::mat4 modelMat;
-			modelMat = glm::translate(modelMat, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-			modelMat = glm::scale(modelMat, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+			modelMat = glm::translate(modelMat, glm::vec3(0.0f, -1.75f, 0.0f));
+			modelMat = glm::scale(modelMat, glm::vec3(0.2f, 0.2f, 0.2f));
 			modelShader.setMat4("model", modelMat);
 
 			model.Draw(modelShader);

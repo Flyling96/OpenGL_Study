@@ -23,9 +23,9 @@ public:
 	/*  函数   */
 	Model(char *path);
 	Model() {};
-	void Init(char *path);
+	void Init(string const &path);
 	~Model();
-	void Draw(Shader shader);
+	void Draw(Shader &shader);
 private:
 	/*  模型数据  */
 	vector<Texture> textures_loaded;
