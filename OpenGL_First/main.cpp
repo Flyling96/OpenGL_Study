@@ -4,11 +4,11 @@
 #include<iostream>
 #include<fstream>
 
-#include"Shader.h"
-#include"Mesh.h"
-#include"Windows.h"
-#include"Camera.h"
-#include"Model.h"
+#include"common/Shader.h"
+#include"common/Mesh.h"
+#include"common/Windows.h"
+#include"common/Camera.h"
+#include"common/Model.h"
 
 #define CRTDBG_MAP_ALLOC    //×¢ÒâË³Ðò²»ÄÜÂÒ
 #include<stdlib.h>    
