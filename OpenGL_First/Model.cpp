@@ -19,7 +19,7 @@ Model::~Model()
 void Model::loadModel(string path)
 {
 	Assimp::Importer importer;
-	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 	//ReadFile(路径,后期处理类型)  
 	//aiProcess_Triangulate  如果模型不是（全部）由三角形组成，它需要将模型所有的图元形状变换为三角形
 	//aiProcess_FlipUVs  将在处理的时候翻转y轴的纹理坐标
@@ -62,12 +62,23 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		VertexPosition position(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);;
 		Normal normal(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
 		TextureUV uv;
-		if (mesh->mTextureCoords[0]) // 网格是否有纹理坐标？
+		if (mesh->mTextureCoords[0]) // 网格是否有纹理坐标
 		{
 			uv.ChangeUV(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 		}
+		Tangent tangent;
+		if (mesh->mTangents)
+		{
+			 tangent.ChangeTangent(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
+		}
+
+		Bitangent bitangent;
+		if (mesh->mBitangents)
+		{
+			 bitangent.ChangeBitangent(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z);
+		}
 		
-		Vertex vertex(position, Color(1, 1, 1, 1), uv, normal);
+		Vertex vertex(position, Color(1, 1, 1, 1), uv, normal, tangent, bitangent);
 		vertices.push_back(vertex);
 	}
 	// 处理索引
@@ -146,7 +157,6 @@ unsigned int Model::LoadTexture(std::string name, std::string directory)
 
 	// 加载并生成纹理
 	int width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(true);
 	unsigned char *data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0);
 	if (data)
 	{

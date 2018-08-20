@@ -9,10 +9,7 @@
 class Normal
 {
 public:
-	Normal()
-	{
-		x = 0, y = 0, z = 0;
-	}
+	Normal(){x = y =  z = 0;}
 	Normal(float a, float b, float c)
 	{
 		ChangeNormal(a, b, c);
@@ -36,10 +33,7 @@ private:
 class VertexPosition
 {
 public:
-	VertexPosition()
-	{
-		posX = 0, posY = 0,posZ = 0;
-	}
+	VertexPosition(){posX = posY = posZ = 0;}
 	VertexPosition(float x,float y,float z)
 	{
 		posX = x;
@@ -60,10 +54,7 @@ private:
 class Color
 {
 public:
-	Color()
-	{
-		r = 1, g = 1, b = 1, a = 1;
-	}
+	Color(){r = g = b = a = 1;}
 	Color(float x, float y, float z,float w )
 	{
 		r = x;
@@ -72,20 +63,15 @@ public:
 		a = w;
 	}
 private:
-	float r;
-	float g;
-	float b;
-	float a;
+	float r, g, b, a;
+
 };
 
 class TextureUV
 {
 
 public:
-	TextureUV()
-	{
-		u = 0, v = 0;
-	}
+	TextureUV(){u = 0, v = 0;}
 	TextureUV(float a, float b)
 	{
 		u = a;
@@ -99,9 +85,45 @@ public:
 	}
 
 private:
-	float u;
-	float v;
+	float u, v;
 
+
+};
+
+class Tangent
+{
+public:
+	Tangent() { x = y = z = 0; }
+	Tangent(float a, float b, float c)
+	{
+		ChangeTangent(a, b, c);
+	}
+
+	void ChangeTangent(float a, float b, float c)
+	{
+		x = a; y = b; z = c;
+	}
+
+private:
+	float x, y, z;
+};
+
+class Bitangent
+{
+public:
+	Bitangent() { x = y = z = 0; }
+	Bitangent(float a, float b, float c)
+	{
+		ChangeBitangent(a, b, c);
+	}
+
+	void ChangeBitangent(float a, float b, float c)
+	{
+		x = a; y = b; z = c;
+	}
+
+private:
+	float x, y, z;
 };
 
 class Vertex
@@ -123,6 +145,16 @@ public:
 		texture = t;
 		normal = n;
 	}
+	Vertex(VertexPosition v, Color c, TextureUV t, Normal n,Tangent tan,Bitangent b)
+	{
+		vertex = v;
+		color = c;
+		texture = t;
+		normal = n;
+		tangent = tan;
+		bitangent = b;
+	}
+
 	void ChangeNormal(float a, float b, float c)
 	{
 		normal.ChangeNormal(a,b,c);
@@ -131,15 +163,13 @@ public:
 	{
 		return vertex.GetVertex();
 	}
+
 	VertexPosition vertex;
 	Color color;
 	TextureUV texture;
 	Normal normal;
-private:
-	//VertexPosition vertex;
-	//Color color;
-	//TextureUV texture;
-	//Normal normal;
+	Tangent tangent;
+	Bitangent bitangent;
 };
 
 struct Texture {
