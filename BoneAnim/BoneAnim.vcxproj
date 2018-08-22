@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{B4414F06-59AD-4980-AB64-1338C2559F97}</ProjectGuid>
-    <RootNamespace>OpenGLFirst</RootNamespace>
+    <ProjectGuid>{51F4AD02-8800-4926-B8D4-9E2E554B542E}</ProjectGuid>
+    <RootNamespace>BoneAnim</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -69,17 +69,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>.\glfw\include;$(IncludePath)</IncludePath>
-    <LibraryPath>.\glfw\libs;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)..\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -91,12 +87,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\WangLingJie\openGL\OpenGL_Project\OpenGL_Study\OpenGL_First\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>D:\WangLingJie\openGL\OpenGL_Project\OpenGL_Study\OpenGL_First\glfw\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -127,13 +118,13 @@
   <ItemGroup>
     <ClCompile Include="..\include\common\stb_image.cpp" />
     <ClCompile Include="..\include\glad.c" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="BoneAnim.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\res\shader\boneAnimShader.fs" />
+    <None Include="..\res\shader\boneAnimShader.vs" />
     <None Include="..\res\shader\lightShader.fs" />
     <None Include="..\res\shader\lightShader.vs" />
-    <None Include="..\res\shader\modelShader.fs" />
-    <None Include="..\res\shader\modelShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

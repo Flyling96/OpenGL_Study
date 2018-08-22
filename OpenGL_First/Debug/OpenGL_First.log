@@ -1,1 +1,25 @@
-﻿  OpenGL_First.vcxproj -> D:\WangLingJie\openGL\OpenGL_Project\OpenGL_Study\Debug\OpenGL_First.exe
+﻿  main.cpp
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\shader.h(232): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\mesh.h(433): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\camera.h(97): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\camera.h(98): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\camera.h(99): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\camera.h(100): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(132): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(290): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(337): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(362): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(378): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(394): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(415): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(436): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(456): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(468): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\opengl_first\main.cpp(196): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\opengl_first\main.cpp(221): warning C4305: “参数”: 从“double”到“float”截断
+d:\wanglingjie\opengl\opengl_project\opengl_study\opengl_first\main.cpp(222): warning C4305: “参数”: 从“double”到“float”截断
+d:\wanglingjie\opengl\opengl_project\opengl_study\opengl_first\main.cpp(308): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\opengl_first\main.cpp(313): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\opengl_first\main.cpp(328): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\opengl_first\main.cpp(334): warning C4018: “<”: 有符号/无符号不匹配
+  OpenGL_First.vcxproj -> D:\WangLingJie\openGL\OpenGL_Project\OpenGL_Study\Debug\OpenGL_First.exe

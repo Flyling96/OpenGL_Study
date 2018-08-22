@@ -6,6 +6,10 @@
 
 #include"Shader.h"
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 class Normal
 {
 public:
@@ -16,39 +20,33 @@ public:
 	}
 	void ChangeNormal(float a, float b, float c)
 	{
-		x = a;
-		y = b;
-		z = c;
+		x = a; y = b; z = c;
 	}
 	glm::vec3 GetNormal()
 	{
 		return glm::vec3(x, y, z);
 	}
 private:
-	float x;
-	float y;
-	float z;
+	float x, y, z;
 };
 
 class VertexPosition
 {
 public:
-	VertexPosition(){posX = posY = posZ = 0;}
-	VertexPosition(float x,float y,float z)
+	VertexPosition(){x = y = z = 0;}
+	VertexPosition(float _x,float _y,float _z)
 	{
-		posX = x;
-		posY = y;
-		posZ = z;
+		x = _x;
+		y = _y;
+		z = _z;
 	}
 
 	glm::vec3 GetVertex()
 	{
-		return glm::vec3(posX, posY, posZ);
+		return glm::vec3(x, y, z);
 	}
 private:
-	float posX;
-	float posY;
-	float posZ;
+	float x, y, z;
 };
 
 class Color
@@ -126,34 +124,89 @@ private:
 	float x, y, z;
 };
 
+enum
+{
+	NUM_BONES_PER_VEREX = 4,
+};
+
+class VertexBoneData
+{
+public:
+
+	VertexBoneData()
+	{
+		Reset();
+	};
+
+	void Reset()
+	{
+		for (int i = 0; i < NUM_BONES_PER_VEREX; i++)
+		{
+			IDs[i] = 0; Weights[i] = 0;
+		}
+	}
+
+	void AddBoneData(int BoneID, float Weight)
+	{
+		for (int i = 0; i < NUM_BONES_PER_VEREX; i++)
+		{
+			if (Weights[i] == 0.0) {
+				IDs[i] = BoneID;
+				Weights[i] = Weight;
+				return;
+			}
+		}
+	}
+
+	int GetID(int index) 
+	{
+		if (index > -1 && index < NUM_BONES_PER_VEREX)
+		{
+			return IDs[index];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	float GetWeight(int index)
+	{
+		if (index > -1 && index < NUM_BONES_PER_VEREX)
+		{
+			return Weights[index];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+private:
+
+	int IDs[NUM_BONES_PER_VEREX];
+	float Weights[NUM_BONES_PER_VEREX];
+};
+
 class Vertex
 {
 public:
 	Vertex() {}
-	Vertex(VertexPosition v, Color c, TextureUV t)
+	Vertex(VertexPosition _vertex, 
+		   Color _color, 
+		   TextureUV _uv,
+		   Normal _normal = Normal(),
+		   Tangent _tangent = Tangent(),
+		   Bitangent _bitangent = Bitangent())
 	{
-		vertex = v;
-		color = c;
-		texture = t;
-		normal = Normal(0, 0, 0);
+		vertex = _vertex;
+		color = _color;
+		texture = _uv;
+		normal = _normal;
+		tangent = _tangent;
+		bitangent = _bitangent;
 	}
 
-	Vertex(VertexPosition v, Color c, TextureUV t, Normal n)
-	{
-		vertex = v;
-		color = c;
-		texture = t;
-		normal = n;
-	}
-	Vertex(VertexPosition v, Color c, TextureUV t, Normal n,Tangent tan,Bitangent b)
-	{
-		vertex = v;
-		color = c;
-		texture = t;
-		normal = n;
-		tangent = tan;
-		bitangent = b;
-	}
 
 	void ChangeNormal(float a, float b, float c)
 	{
@@ -170,6 +223,7 @@ public:
 	Normal normal;
 	Tangent tangent;
 	Bitangent bitangent;
+	VertexBoneData vertexBoneData;
 };
 
 struct Texture {
@@ -184,10 +238,14 @@ public:
 	unsigned int m_vertexArrayObject;					//VAO,顶点数组对象
 	Mesh();
 	Mesh(std::vector<Vertex> vertices, std::vector<int> indices,std::vector<Texture> textures);
-	void Init(std::vector<Vertex> vertices, std::vector<int> indices);
 	Mesh(VertexPosition * vertices, unsigned int numVertices);
 	Mesh(std::vector<Vertex> vertices);
+
+	void Init();
+	void Init(std::vector<Vertex> vertices, std::vector<int> indices);
 	void Init(std::vector<Vertex> vertices);
+
+
 	void Draw(bool isEleMents);
 	void Draw(Shader &shader);
 
@@ -197,15 +255,21 @@ public:
 	std::vector<int> indices;
 	std::vector<Texture> textures;
 
+	int baseVertex = 0;
+
+
 private:
 	enum
 	{
-		POSITION_VB,
+		VERTEX_VB,
 		NUM_BUFFERS
 	};
-	unsigned int m_vertexArrayBuffers;				//VBO,顶点缓存对象
+	unsigned int m_vertexArrayBuffers[NUM_BUFFERS];				//VBO,顶点缓存对象
 	unsigned int m_elementBufferObject;				//EBO,索引缓存对象
 	unsigned int m_drawCount;
+
+	const aiScene* m_pScene;
+
 
 
 };
@@ -216,32 +280,33 @@ Mesh::Mesh(std::vector<Vertex> verticesData, std::vector<int> indicesData, std::
 	this->vertices = verticesData;
 	this->indices = indicesData;
 	this->textures = texturesData;
+	//Init(vertices, indices);
+}
+void Mesh::Init()
+{
 	Init(vertices, indices);
 }
-
 void Mesh::Init(std::vector<Vertex> verticesData, std::vector<int> indicesData)
 {
 	m_drawCount = indicesData.size();
 
 	//1、绑定顶点数组对象
 	glGenVertexArrays(1, &m_vertexArrayObject);//分配VAO(顶点数组对象)内存空间，1为设置的缓存ID
-	glGenBuffers(1, &m_vertexArrayBuffers);//分配VBO(顶点缓存对象)内存空间
+	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);//分配VBO(顶点缓存对象)内存空间
 	glGenBuffers(1, &m_elementBufferObject);
 
 
 	glBindVertexArray(m_vertexArrayObject);//绑定顶点数组对象
 
 										   //2、把我们的顶点数组复制到一个顶点缓冲中，供OpenGL使用
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers);//把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[VERTEX_VB]);//把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
 	glBufferData(GL_ARRAY_BUFFER, verticesData.size() * sizeof(Vertex), &verticesData[0], GL_STATIC_DRAW);//把用户定义的数据复制到当前绑定缓冲
 																										  //glBufferData(目标缓冲的类型,传输数据的大小,发送的实际数据,显卡管理给定的数据的方式)
 
-																										  // 3. 复制我们的索引数组到一个索引缓冲中，供OpenGL使用
-	glGenBuffers(1, &m_elementBufferObject);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_elementBufferObject);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesData.size() * sizeof(indicesData[0]), &indicesData[0], GL_STATIC_DRAW);
+																										  
 
-	//4、设置顶点属性指针
+
+	//3、设置顶点属性指针
 	glEnableVertexAttribArray(0);//以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);//告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上）
 																			  //glVertexAttribPointer(指定我们要配置的顶点属性，顶点属性的大小（顶点属性是一个vec3，它由3个值组成，所以大小是3），
@@ -263,9 +328,26 @@ void Mesh::Init(std::vector<Vertex> verticesData, std::vector<int> indicesData)
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
 
-	//双切线数据
+	//副切线数据
 	glEnableVertexAttribArray(5);
 	glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
+
+	//骨骼ID数据
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, NUM_BONES_PER_VEREX, GL_INT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, vertexBoneData));
+
+	//骨骼权重数据
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, NUM_BONES_PER_VEREX, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, vertexBoneData)+ NUM_BONES_PER_VEREX*sizeof(int)));
+
+
+	//也可通过设立多个缓冲区来进行数据的传递
+
+
+
+	// 4. 复制我们的索引数组到一个索引缓冲中，供OpenGL使用
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_elementBufferObject);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesData.size() * sizeof(indicesData[0]), &indicesData[0], GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
 }
@@ -279,8 +361,8 @@ Mesh::Mesh(VertexPosition * vertices, unsigned int numVertices)
 	glBindVertexArray(m_vertexArrayObject);//绑定顶点数组对象
 
 										   //2、把我们的顶点数组复制到一个顶点缓冲中，供OpenGL使用
-	glGenBuffers(1, &m_vertexArrayBuffers);//分配VBO(顶点缓存对象)内存空间
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers);//把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
+	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);//分配VBO(顶点缓存对象)内存空间
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[VERTEX_VB]);//把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
 	glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(vertices[0]), vertices, GL_STATIC_DRAW);
 
 	//3、设置顶点属性指针
@@ -305,8 +387,8 @@ void Mesh::Init(std::vector<Vertex> verticesData)
 	glBindVertexArray(m_vertexArrayObject);//绑定顶点数组对象
 
 										   //2、把我们的顶点数组复制到一个顶点缓冲中，供OpenGL使用
-	glGenBuffers(1, &m_vertexArrayBuffers);//分配VBO(顶点缓存对象)内存空间
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers);//把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
+	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);//分配VBO(顶点缓存对象)内存空间
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[VERTEX_VB]);//把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
 	glBufferData(GL_ARRAY_BUFFER, verticesData.size() * sizeof(Vertex), &verticesData[0], GL_STATIC_DRAW);
 
 	//3、设置顶点属性指针

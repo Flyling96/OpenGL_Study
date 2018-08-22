@@ -155,11 +155,11 @@ int main()
 
 	if (!isModel)
 	{
-		shader.Init("./res/shader/cubeShader");
-		lightShader.Init("./res/shader/lightShader");
+		shader.Init("../res/shader/cubeShader");
+		lightShader.Init("../res/shader/lightShader");
 		unsigned int diffuseMap, specularMap;
-		diffuseMap = shader.LoadTexture("./res/DiffuseMap.png");
-		specularMap = shader.LoadTexture("./res/SpecularMap.png");
+		diffuseMap = shader.LoadTexture("../res/DiffuseMap.png");
+		specularMap = shader.LoadTexture("../res/SpecularMap.png");
 
 		shader.Use();
 		shader.BindTexture(GL_TEXTURE0, diffuseMap, "material.diffuse", 0);
@@ -167,9 +167,9 @@ int main()
 	}
 	else
 	{
-		shader.Init("./res/shader/modelShader");
-		lightShader.Init("./res/shader/lightShader");
-		model.Init("./res/model/nanosuit/nanosuit.obj");
+		shader.Init("../res/shader/modelShader");
+		lightShader.Init("../res/shader/lightShader");
+		model.Init("../res/model/nanosuit/nanosuit.obj");
 	}
 	Camera camera(window.GetWindow());
 

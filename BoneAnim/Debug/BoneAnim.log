@@ -1,0 +1,29 @@
+﻿  BoneAnim.cpp
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\shader.h(236): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\mesh.h(445): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\camera.h(97): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\camera.h(98): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\camera.h(99): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\camera.h(100): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(111): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(119): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(121): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(135): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(144): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(156): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(293): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(310): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(356): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(386): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(402): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(418): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(439): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(460): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(480): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\include\common\model.h(492): warning C4018: “<”: 有符号/无符号不匹配
+d:\wanglingjie\opengl\opengl_project\opengl_study\boneanim\boneanim.cpp(90): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\boneanim\boneanim.cpp(94): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\wanglingjie\opengl\opengl_project\opengl_study\boneanim\boneanim.cpp(119): warning C4305: “参数”: 从“double”到“float”截断
+d:\wanglingjie\opengl\opengl_project\opengl_study\boneanim\boneanim.cpp(120): warning C4305: “参数”: 从“double”到“float”截断
+d:\wanglingjie\opengl\opengl_project\opengl_study\boneanim\boneanim.cpp(141): warning C4018: “<”: 有符号/无符号不匹配
+  BoneAnim.vcxproj -> D:\WangLingJie\openGL\OpenGL_Project\OpenGL_Study\Debug\BoneAnim.exe

@@ -79,6 +79,10 @@ public:
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_program, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 	}
+	void setMat4t(const std::string &name, const glm::mat4 &mat) const
+	{
+		glUniformMatrix4fv(glGetUniformLocation(m_program, name.c_str()), 1, GL_TRUE, &mat[0][0]);
+	}
 private:
 	static const unsigned int NUM_SHADERS = 2;
 	GLuint m_shader[NUM_SHADERS];

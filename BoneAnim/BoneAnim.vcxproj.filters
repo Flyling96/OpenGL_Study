@@ -15,27 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\common\stb_image.cpp">
+    <ClCompile Include="BoneAnim.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\include\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\include\common\stb_image.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\res\shader\boneAnimShader.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\res\shader\boneAnimShader.vs">
+      <Filter>资源文件</Filter>
+    </None>
     <None Include="..\res\shader\lightShader.fs">
       <Filter>资源文件</Filter>
     </None>
     <None Include="..\res\shader\lightShader.vs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="..\res\shader\modelShader.fs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="..\res\shader\modelShader.vs">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
